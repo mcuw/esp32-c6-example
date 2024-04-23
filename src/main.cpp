@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <DebugUtils.h>
 
 // pinouts: https://github.com/espressif/arduino-esp32/blob/master/variants/esp32c6/pins_arduino.h
 
@@ -6,9 +7,7 @@
 
 void setup()
 {
-  Serial.begin(115200);
-  while (!Serial)
-    ;
+  serialBegin(115200);
 }
 
 void loop()
@@ -17,6 +16,7 @@ void loop()
   analogSetAttenuation(ADC_0db);
 
   // // blink
+  // serialPrintLn("green");
   // neopixelWrite(PIN_NEOPIXEL, 0, 255, 0);
   // delay(1000);
 }
