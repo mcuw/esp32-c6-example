@@ -25,6 +25,18 @@ void loop()
 {
   pixels.clear();
 
-  // pixels.setPixelColor(0, pixels.Color(255, 0, 0));
-  // pixels.show(); // Send the updated pixel colors to the hardware.
+  Serial.println("Rot");
+  pixels.setPixelColor(0, pixels.Color(255, 0, 0));
+  pixels.show(); // Send the updated pixel colors to the hardware.
+  delay(1000);
+
+  Serial.println("Grün");
+  pixels.setPixelColor(0, pixels.Color(0, 255, 0));
+  pixels.show();
+  delay(1000);
+
+  Serial.println("Blau");
+  pixels.setPixelColor(0, pixels.Color(0, 0, 255));
+  pixels.show();
+  delay(1000);
 }
