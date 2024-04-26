@@ -5,6 +5,11 @@
 
 // see https://github.com/wuxx/nanoESP32-C6
 
+void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
+{
+  neopixelWrite(PIN_NEOPIXEL, redValue, greenValue, blueValue); // default off RGB-LED if (0, 0, 0)
+}
+
 void setup()
 {
   serialBegin(115200);
@@ -12,6 +17,9 @@ void setup()
 
 void loop()
 {
+  // reset RGB-LED, ...
+  initDevBoard(0, 0, 0);
+
   // The ESP32-C6 has an attenuator on the ADC, which defaults to 11dB. This causes the resolution to be reduced
   analogSetAttenuation(ADC_0db);
 
