@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include "./OTA.h"
 #include "esp_mac.h" // required - exposes esp_mac_type_t values
+#include "esp_mac.h"
 
 #define HOSTNAME "ESP32-"
 
@@ -9,43 +10,33 @@ OTA::OTA()
 {
 }
 
-String OTA::getDefaultMacAddress()
-{
-  String mac = "";
-
-  unsigned char mac_base[6] = {0};
-
-  if (esp_efuse_mac_get_default(mac_base) == ESP_OK)
-  {
-    char buffer[13]; // 6*2 characters for hex + 1 character for null terminator
-    sprintf(buffer, "%02X%02X%02X%02X%02X%02X", mac_base[0], mac_base[1], mac_base[2], mac_base[3], mac_base[4], mac_base[5]);
-    mac = buffer;
-  }
-
-  return mac;
-}
-
 String OTA::getHostname()
 {
   String hostname(HOSTNAME);
-  hostname += getDefaultMacAddress();
+  hostname += WiFi.macAddress();
   return hostname;
 }
 
 void OTA::startAP(const String &passphrase)
 {
-  String ssid(getHostname());
-
   // Go into software AP mode.
+  WiFi.mode(WIFI_STA);
+  String ssid(getHostname()); // STA-, Serial- and ESPNow-MAC
   WiFi.mode(WIFI_AP);
   delay(10);
   int channel = 1;
   int ssid_hidden = 0;
   int max_connection = 4;
-  WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, WIFI_AUTH_WPA3_PSK);
+  if (WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, WIFI_AUTH_WPA3_PSK))
+  {
+    // neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+  }
+  else
+  {
+    // neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
+  }
 
   // Start OTA server.
-  ArduinoOTA.setHostname(ssid.c_str());
   ArduinoOTA.setPassword(passphrase.c_str());
   ArduinoOTA.begin();
 }
@@ -57,14 +48,13 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
     return false;
   }
 
-  String hostname(getHostname());
-
   // Check Wifi mode
   if (WiFi.getMode() != WIFI_STA)
   {
     WiFi.mode(WIFI_STA);
     delay(10);
   }
+  String hostname(getHostname());
 
   // Compare file config with sdk config
   if (strcmp(WiFi.SSID().c_str(), station_ssid) == 0 && strcmp(WiFi.psk().c_str(), station_passphrase) == 0)

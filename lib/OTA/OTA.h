@@ -14,7 +14,6 @@ private:
   void startAP(const String &passphrase);
   boolean startSTA(const char *station_ssid, const char *station_passphrase, const String &password);
   String getHostname();
-  String getDefaultMacAddress();
 };
 
 #endif

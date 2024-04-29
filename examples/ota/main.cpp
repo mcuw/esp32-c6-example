@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <OTA.h>
 #include "credentials.h"
+#include <DebugUtils.h>
 
 OTA ota;
-String ap_default_psk(AP_PSK); // Default PSK.
 
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
@@ -13,9 +13,10 @@ void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValu
 
 void setup()
 {
+  serialBegin(115200);
   initDevBoard(0, 0, 0);
 
-  ota.begin(ap_default_psk);
+  ota.begin(AP_PSK);
   // or protected but does not work yet
   // ota.begin(ap_default_psk, MY_SSID, PASSPHRASE);
 }

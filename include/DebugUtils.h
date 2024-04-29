@@ -14,11 +14,11 @@ build_flags =
 #ifdef SERIAL_DEBUG
 #define serialBegin(x) Serial.begin(x)
 #define serialPrint(x) Serial.print(x)
-#define serialPrintLn(x) Serial.println(x)
+#define serialPrintln(x) Serial.println(x)
 #else
 #define serialBegin(x)
 #define serialPrint(x)
-#define serialPrintLn(x)
+#define serialPrintln(x)
 #endif
 
 #endif
