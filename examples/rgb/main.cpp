@@ -12,15 +12,15 @@ void setup()
 
 void loop()
 {
-  serialPrintLn("red");
+  serialPrintln("red");
   neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
   delay(1000);
 
-  serialPrintLn("green");
+  serialPrintln("green");
   neopixelWrite(PIN_NEOPIXEL, 0, 255, 0);
   delay(1000);
 
-  serialPrintLn("blue");
+  serialPrintln("blue");
   neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
   delay(1000);
 }

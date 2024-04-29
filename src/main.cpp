@@ -24,7 +24,7 @@ void loop()
   analogSetAttenuation(ADC_0db);
 
   // // blink
-  // serialPrintLn("green");
+  // serialPrintln("green");
   // neopixelWrite(PIN_NEOPIXEL, 0, 255, 0);
   // delay(1000);
 }
