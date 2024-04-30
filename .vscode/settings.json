@@ -11,6 +11,7 @@
     "initializer_list": "cpp",
     "span": "cpp",
     "*.tcc": "cpp",
-    "system_error": "cpp"
+    "system_error": "cpp",
+    "regex": "cpp"
   }
 }
