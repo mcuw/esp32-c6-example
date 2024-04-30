@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include <OTA.h>
 #include <DebugUtils.h>
+#include <ESPTelnetStream.h>
 #include "credentials.h"
 
 OTA ota;
+ESPTelnetStream telnet;
 
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
@@ -19,16 +21,33 @@ void setup()
   ota.begin(AP_PSK);
   // or use this for an existing WLAN:
   // ota.begin(ap_default_psk, MY_SSID, PASSPHRASE);
+
+  telnet.begin();
 }
 
 void loop()
 {
   ota.handle();
+  telnet.loop();
 
-  // blink example
-  // neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
-  // delay(200);
+  if (telnet.available() > 0)
+  {
+    int message = telnet.read();
 
-  // neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
-  // delay(100);
+    switch (message)
+    {
+    case 'a':
+      neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+      telnet.println("light");
+      break;
+
+    case 'o':
+      neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
+      telnet.println("dark");
+      break;
+    }
+  }
+
+  telnet.println("loop");
+  delay(200);
 }

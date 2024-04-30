@@ -4,24 +4,29 @@
 #include "esp_mac.h" // required - exposes esp_mac_type_t values
 #include "esp_mac.h"
 
-#define HOSTNAME "ESP32-"
+#define HOSTNAME_PREFIX "ESP32-"
 
 OTA::OTA()
 {
 }
 
+// get MAC of STA-, Serial- and ESPNow-MAC
 String OTA::getHostname()
 {
-  String hostname(HOSTNAME);
+  String hostname(HOSTNAME_PREFIX);
+  if (WiFi.getMode() != WIFI_STA)
+  {
+    WiFi.mode(WIFI_STA);
+    delay(10);
+  }
   hostname += WiFi.macAddress();
+  WiFi.disconnect(true);
   return hostname;
 }
 
 void OTA::startAP(const String &passphrase)
 {
-  // Go into software AP mode.
-  WiFi.mode(WIFI_STA);
-  String ssid(getHostname()); // STA-, Serial- and ESPNow-MAC
+  String ssid(getHostname());
   WiFi.mode(WIFI_AP);
   delay(10);
   int channel = 1;
@@ -48,13 +53,14 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
     return false;
   }
 
+  String hostname(getHostname());
+
   // Check Wifi mode
   if (WiFi.getMode() != WIFI_STA)
   {
     WiFi.mode(WIFI_STA);
     delay(10);
   }
-  String hostname(getHostname());
 
   // Compare file config with sdk config
   if (strcmp(WiFi.SSID().c_str(), station_ssid) == 0 && strcmp(WiFi.psk().c_str(), station_passphrase) == 0)
@@ -72,8 +78,6 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
     // Serial.print(F("New SSID: "));
     // Serial.println(WiFi.SSID());
   }
-
-  // Serial.println(F("Wait for WiFi connection."));
 
   // Give ESP 10 seconds to connect to station
   unsigned long startTime = millis();
@@ -97,7 +101,6 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
   // Serial.println(WiFi.localIP());
 
   // Start OTA server
-  ArduinoOTA.setHostname(hostname.c_str());
   ArduinoOTA.setPassword(passphrase.c_str());
   ArduinoOTA.begin();
 
