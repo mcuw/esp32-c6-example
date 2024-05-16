@@ -11,9 +11,6 @@ ESPTelnetStream telnet;
 
 WebServer server(80);
 
-const char NEWLINE = '\n';
-const char CARRIAGE_RETURN = '\r';
-
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
   // init RGB-LED
@@ -81,7 +78,7 @@ void handleRoot()
 
 void handleNotFound()
 {
-  String message = "File Not Found\n\n";
+  String message("File Not Found\n\n");
   message += "URI: ";
   message += server.uri();
   message += "\nMethod: ";
@@ -104,12 +101,13 @@ void setup()
 
   const char *MY_SSID = "";
   const char *PASSPHRASE = "";
-  // TODO show UI and save in preferences, load on start and put it here
-  //  on UI - posibility to reset credentials to show AP
+
+  // how to setup credentials (SSID, PASSPHRASE),
+  // see ota-manager example
   ota.begin(ap_default_psk, MY_SSID, PASSPHRASE);
   telnet.begin();
 
-  server.on(F("/"), handleRoot);
+  server.on("/", handleRoot);
   server.onNotFound(handleNotFound);
 
   server.begin();
