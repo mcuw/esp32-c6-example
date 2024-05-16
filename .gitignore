@@ -5,3 +5,7 @@
 .vscode/ipch
 .DS_Store
 upload_params.ini
+
+# projectplan and design
+*.kanban
+*.excalidraw

@@ -1,8 +1,6 @@
 #include <ArduinoOTA.h>
 #include <WiFi.h>
 #include "./OTA.h"
-#include "esp_mac.h" // required - exposes esp_mac_type_t values
-#include "esp_mac.h"
 
 #define HOSTNAME_PREFIX "ESP32-"
 
@@ -20,6 +18,7 @@ String OTA::getHostname()
     delay(10);
   }
   hostname += WiFi.macAddress();
+  hostname.replace(":", "");
   WiFi.disconnect(true);
   return hostname;
 }
@@ -34,16 +33,14 @@ void OTA::startAP(const String &passphrase)
   int max_connection = 4;
   if (WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, WIFI_AUTH_WPA3_PSK))
   {
-    // neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+    // Start OTA server.
+    ArduinoOTA.setPassword(passphrase.c_str());
+    ArduinoOTA.begin();
   }
   else
   {
-    // neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
+    neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
   }
-
-  // Start OTA server.
-  ArduinoOTA.setPassword(passphrase.c_str());
-  ArduinoOTA.begin();
 }
 
 boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, const String &passphrase)
@@ -54,6 +51,7 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
   }
 
   String hostname(getHostname());
+  // Serial.println(hostname);
 
   // Check Wifi mode
   if (WiFi.getMode() != WIFI_STA)
@@ -92,15 +90,16 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
   // Check connection
   if (WiFi.status() != WL_CONNECTED)
   {
-    // Serial.println(F("Failed to connect to WiFi station"));
+    // Serial.println("Failed to connect to WiFi station");
     return false;
   }
 
   // print IP Address
-  // Serial.print(F("STA IP address: "));
+  // Serial.print("STA IP address: ");
   // Serial.println(WiFi.localIP());
 
   // Start OTA server
+  ArduinoOTA.setHostname(hostname.c_str()); // open http://esp32-XX.local
   ArduinoOTA.setPassword(passphrase.c_str());
   ArduinoOTA.begin();
 
