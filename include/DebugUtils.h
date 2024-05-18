@@ -15,10 +15,12 @@ build_flags =
 #define serialBegin(x) Serial.begin(x)
 #define serialPrint(x) Serial.print(x)
 #define serialPrintln(x) Serial.println(x)
+#define serialFlush() Serial.flush()
 #else
 #define serialBegin(x)
 #define serialPrint(x)
 #define serialPrintln(x)
+#define serialFlush()
 #endif
 
 #endif

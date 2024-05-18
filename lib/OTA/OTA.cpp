@@ -4,6 +4,8 @@
 
 #define HOSTNAME_PREFIX "ESP32-"
 
+bool loading = false;
+
 OTA::OTA()
 {
 }
@@ -25,15 +27,16 @@ String OTA::getHostname()
 
 void OTA::startAP(const String &passphrase)
 {
-  String ssid(getHostname());
+  String hostname(getHostname());
   WiFi.mode(WIFI_AP);
   delay(10);
   int channel = 1;
   int ssid_hidden = 0;
   int max_connection = 4;
-  if (WiFi.softAP(ssid, passphrase, channel, ssid_hidden, max_connection, false, WIFI_AUTH_WPA3_PSK))
+  if (WiFi.softAP(hostname, passphrase, channel, ssid_hidden, max_connection, false, WIFI_AUTH_WPA3_PSK))
   {
     // Start OTA server.
+    ArduinoOTA.setHostname(hostname.c_str()); // open http://esp32-XX.local
     ArduinoOTA.setPassword(passphrase.c_str());
     ArduinoOTA.begin();
   }
@@ -73,7 +76,7 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
     // Connect to WiFi station
     WiFi.begin(station_ssid, station_passphrase);
 
-    // Serial.print(F("New SSID: "));
+    // Serial.print("New SSID: ");
     // Serial.println(WiFi.SSID());
   }
 
@@ -101,6 +104,47 @@ boolean OTA::startSTA(const char *station_ssid, const char *station_passphrase, 
   // Start OTA server
   ArduinoOTA.setHostname(hostname.c_str()); // open http://esp32-XX.local
   ArduinoOTA.setPassword(passphrase.c_str());
+
+  ArduinoOTA
+      .onStart([]()
+               {
+                loading = true;
+                // Serial.println("Start updating ");
+                neopixelWrite(PIN_NEOPIXEL, 255, 255, 255); })
+      .onEnd([]()
+             {
+               loading = false;
+               // Serial.println("\nEnd");
+             });
+  // .onProgress([](unsigned int progress, unsigned int total)
+  //             {
+  //               // Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  //             })
+  // .onError([](ota_error_t error)
+  //          {
+  //            Serial.printf("Error[%u]: ", error);
+  //            // if (error == OTA_AUTH_ERROR)
+  //            // {
+  //            //   Serial.println("Auth Failed");
+  //            // }
+  //            // else if (error == OTA_BEGIN_ERROR)
+  //            // {
+  //            //   Serial.println("Begin Failed");
+  //            // }
+  //            // else if (error == OTA_CONNECT_ERROR)
+  //            // {
+  //            //   Serial.println("Connect Failed");
+  //            // }
+  //            // else if (error == OTA_RECEIVE_ERROR)
+  //            // {
+  //            //   Serial.println("Receive Failed");
+  //            // }
+  //            // else if (error == OTA_END_ERROR)
+  //            // {
+  //            //   Serial.println("End Failed");
+  //            // }
+  //          });
+
   ArduinoOTA.begin();
 
   return true;
@@ -117,4 +161,9 @@ void OTA::begin(const String &password, const char *station_ssid, const char *st
 void OTA::handle()
 {
   ArduinoOTA.handle();
+}
+
+bool OTA::isLoading()
+{
+  return loading;
 }
