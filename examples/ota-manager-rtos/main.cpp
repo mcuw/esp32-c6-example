@@ -6,17 +6,23 @@
 #include <DebugUtils.h>
 
 #include "credentials.h"
+#include <esp_now.h>
 
 #define PREF_KEY "config"
 #define PREF_SSID_KEY "ssid"
 #define PREF_PASSPHRASE_KEY "passphrase"
 
-OTA ota;
 String ap_default_psk(AP_PSK); // Set your default PSK in credentials.h if you want
 ESPTelnetStream telnet;
 
 WebServer server(80);
 Preferences prefs;
+
+TaskHandle_t OTATask, TelnetTask, UiTask, SleepTask;
+OTA ota;
+
+// sleep modes, see
+// https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/sleep_modes.html
 
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
@@ -136,12 +142,85 @@ void handleNotFound()
   server.send(404, "text/plain", message);
 }
 
+void otaTask(void *parameters)
+{
+  for (;;)
+  {
+    ota.handle();
+    vTaskDelay(portTICK_PERIOD_MS);
+  }
+}
+
+void telnetTask(void *parameters)
+{
+  for (;;)
+  {
+    telnet.loop();
+    vTaskDelay(portTICK_PERIOD_MS);
+  }
+}
+
+void uiTask(void *parameters)
+{
+  for (;;)
+  {
+    server.handleClient();
+    vTaskDelay(portTICK_PERIOD_MS);
+  }
+}
+
+void sleepTask(void *parameters)
+{
+  esp_err_t err = esp_sleep_enable_timer_wakeup(10 * 1000000);
+  if (err == ESP_ERR_INVALID_ARG)
+  {
+    telnet.print("sleep timer wakeup value is too high");
+    telnet.println(err);
+  }
+
+  for (;;)
+  {
+    if (ota.isLoading())
+    {
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+      continue;
+    }
+    // TODO test this:
+    // esp_err_t err = esp_sleep_enable_wifi_wakeup();
+    // telnet.println("enable wifi wakeup...");
+    // telnet.println(err);
+
+    // esp_now_deinit();x
+    neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
+    telnet.println("sleep ...");
+    telnet.flush();
+    serialFlush();
+    err = esp_light_sleep_start(); // ESP_OK or ESP_ERR_INVALID_STATE
+    if (err == ESP_OK)
+    {
+      neopixelWrite(PIN_NEOPIXEL, 0, 255, 0);
+
+      // wake up or failed
+      // err = esp_now_init();
+      delay(100);
+      telnet.println("wake up ...");
+    }
+    else
+    {
+      neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
+      telnet.println(err);
+    }
+
+    // give other tasks time
+    vTaskDelay(10000 / portTICK_PERIOD_MS);
+  }
+}
+
 void setup()
 {
   serialBegin(115200);
-  delay(5000);
 
-  initDevBoard(255, 0, 0);
+  initDevBoard(0, 255, 0);
 
   prefs.begin(PREF_KEY, true);
   String ssid(prefs.getString(PREF_SSID_KEY).c_str());
@@ -156,14 +235,23 @@ void setup()
   server.on("/", handleRoot);
   server.on("/saved", handleSaved);
   server.onNotFound(handleNotFound);
-
   server.begin();
+
+  xTaskCreatePinnedToCore(otaTask, "ota", 4096, NULL, 3, &OTATask, 0);
+
+  xTaskCreatePinnedToCore(telnetTask, "debug", 4096, NULL, 2, &TelnetTask, 0);
+
+  xTaskCreatePinnedToCore(uiTask, "ui", 4096, NULL, 2, &UiTask, 0);
+
+  xTaskCreatePinnedToCore(sleepTask, "sleep", 2048, NULL, 1, &SleepTask, 0);
 }
 
 void loop()
 {
-  ota.handle();
-  telnet.loop();
-  server.handleClient();
-  delay(2); // give cpu time to do things
+  // telnet.print("core: ");
+  // telnet.println(xPortGetCoreID());
+  // delay(1000);
+
+  // run only tasks w/o the non priorized loop task
+  vTaskDelete(NULL);
 }
