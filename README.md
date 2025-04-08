@@ -6,7 +6,7 @@ Uncomment `src_dir=` in the `platform.ini` file or start a new project with the 
 
 ## Supported boards
 
-- ESP32 C6 with WiFi 6 and BT-5 LE (buy with affiliate link: [UICPAL nanoESP32-C6](https://s.click.aliexpress.com/e/_DdZ83IB) with up to 16MB flash, [ESP32-C6](https://s.click.aliexpress.com/e/_DeLjVMb) with 4MB flash and W2812 RGB LED)
+- ESP32 C6 with WiFi 6 and BT-5 LE (buy with affiliate link: [NanoESP32-C6](https://s.click.aliexpress.com/e/_ooBtUih) with up to 16MB flash, [ESP32-C6](https://s.click.aliexpress.com/e/_DeLjVMb) with 4MB flash and W2812 RGB LED)
 
 ![datasheet - nanoESP32-C6](doc/nanoESP32C6.pdf)
 
