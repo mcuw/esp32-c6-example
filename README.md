@@ -6,9 +6,11 @@ Uncomment `src_dir=` in the `platform.ini` file or start a new project with the 
 
 ## Supported boards
 
-- ESP32 C6 with WiFi 6 and BT-5 LE (buy with affiliate link: [NanoESP32-C6](https://s.click.aliexpress.com/e/_ooBtUih) with up to 16MB flash, [ESP32-C6](https://s.click.aliexpress.com/e/_DeLjVMb) with 4MB flash and W2812 RGB LED)
+- [NanoESP32-C6](https://s.click.aliexpress.com/e/_ooBtUih) (affiliate link) with up to 16MB flash [datasheet](doc/nanoESP32C6.pdf)
 
-![datasheet - nanoESP32-C6](doc/nanoESP32C6.pdf)
+- [Super Mini ESP32-C6](https://s.click.aliexpress.com/e/_DeLjVMb) (affiliate link) with 4MB flash and W2812 RGB LED
+
+- [LilyGo T-QT-C6](https://github.com/mcuw/esp32-t-qt-c6-sdk): use Arduino SDK https://github.com/mcuw/esp32-t-qt-c6-sdk
 
 ## Disclaimer
 
