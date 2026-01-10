@@ -6,11 +6,13 @@ Uncomment `src_dir=` in the `platform.ini` file or start a new project with the 
 
 ## Supported boards
 
-- [NanoESP32-C6](https://s.click.aliexpress.com/e/_ooBtUih) (affiliate link) with up to 16MB flash [datasheet](doc/nanoESP32C6.pdf)
+If you want to support this project, you can use these affiliate links ...
 
-- [Super Mini ESP32-C6](https://s.click.aliexpress.com/e/_DeLjVMb) (affiliate link) with 4MB flash and W2812 RGB LED
+- [NanoESP32-C6 (Aliexpress affiliate link)](https://s.click.aliexpress.com/e/_ooBtUih) (affiliate link) with up to 16MB flash [datasheet](doc/nanoESP32C6.pdf)
 
-- [LilyGo T-QT-C6](https://github.com/mcuw/esp32-t-qt-c6-sdk): use Arduino SDK https://github.com/mcuw/esp32-t-qt-c6-sdk
+- [Super Mini ESP32-C6 (Aliexpress affiliate link)](https://s.click.aliexpress.com/e/_DeLjVMb) (affiliate link) with 4MB flash and W2812 RGB LED
+
+- [LilyGo T-QT-C6 (Aliexpress affiliate link)](https://github.com/mcuw/esp32-t-qt-c6-sdk): use Arduino SDK https://github.com/mcuw/esp32-t-qt-c6-sdk
 
 ## Disclaimer
 
