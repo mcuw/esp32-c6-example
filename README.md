@@ -2,6 +2,7 @@
 
 ## Description
 
+This repository comes with a number of example sketches. You can see them on the `examples` folder on this repository.
 Uncomment `src_dir=` in the `platform.ini` file or start a new project with the `/src/main.cpp` file.
 
 ## Supported boards
