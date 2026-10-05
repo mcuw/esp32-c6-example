@@ -9,3 +9,6 @@ upload_params.ini
 # projectplan and design
 *.kanban
 *.excalidraw
+
+# vscode
+.vscode/extensions.json
