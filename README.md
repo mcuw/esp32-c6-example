@@ -20,6 +20,14 @@ If you want to support this project, you can use these affiliate links ...
 - [Visual Studio Code](https://code.visualstudio.com/) IDE
 - [pioarduino](https://marketplace.visualstudio.com/items?itemName=pioarduino.pioarduino-ide) extension
 
+## Get Started
+
+1. build and flash your ESP32-C6 - default app is under src/main.cpp
+
+2. try out examples - comment out a `src_dir` in platformio.ini
+
+3. try out OTA to flash fast and w/o USB cable - flash once with an USB cable then configure the `extra_configs/ota.ini` to flash over Wi-Fi.
+
 ## Troubleshooting
 
 ### No update after flashing
