@@ -2,8 +2,8 @@
 
 ## Description
 
-This repository comes with a number of example sketches. You can see them on the `examples` folder on this repository.
-Uncomment `src_dir=` in the `platform.ini` file or start a new project with the `/src/main.cpp` file.
+This repository comes with a number of example sketches. You can see them in the `examples/` folder.
+Uncomment a `src_dir=` in the `platformio.ini` file or start a new project with the `src/main.cpp` file.
 
 ## Supported boards
 
