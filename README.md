@@ -15,6 +15,17 @@ If you want to support this project, you can use these affiliate links ...
 
 - [LilyGo T-QT-C6 (Aliexpress affiliate link)](https://github.com/mcuw/esp32-t-qt-c6-sdk): use Arduino SDK https://github.com/mcuw/esp32-t-qt-c6-sdk
 
+## Prerequisites
+
+- [Visual Studio Code](https://code.visualstudio.com/) IDE
+- [pioarduino](https://marketplace.visualstudio.com/items?itemName=pioarduino.pioarduino-ide) extension
+
+## Troubleshooting
+
+### No update after flashing
+
+Some boards requires a click on the reset button or disconnect/ reconnect of the board.
+
 ## Disclaimer
 
 Contribution and help - if you find an issue or wants to contribute then please do not hesitate to create a pull request or an issue.
