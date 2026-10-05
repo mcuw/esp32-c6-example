@@ -8,7 +8,7 @@ OTA ota;
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
   // reset RGB-LED
-  neopixelWrite(PIN_NEOPIXEL, redValue, greenValue, blueValue);
+  rgbLedWrite(PIN_RGB_LED, redValue, greenValue, blueValue);
 }
 
 void setup()
@@ -26,9 +26,9 @@ void loop()
   ota.handle();
 
   // blink example
-  // neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+  // rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
   // delay(200);
 
-  // neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
+  // rgbLedWrite(PIN_RGB_LED, 0, 0, 0);
   // delay(100);
 }

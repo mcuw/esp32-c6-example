@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
 #include <DebugUtils.h>
 
 // pinouts: https://github.com/espressif/arduino-esp32/blob/master/variants/esp32c6/pins_arduino.h
@@ -12,14 +13,14 @@ void setup()
 void loop()
 {
   serialPrintln("red");
-  neopixelWrite(RGB_BUILTIN, 255, 0, 0);
+  rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
   delay(1000);
 
   serialPrintln("green");
-  neopixelWrite(RGB_BUILTIN, 0, 255, 0);
+  rgbLedWrite(PIN_RGB_LED, 0, 255, 0);
   delay(1000);
 
   serialPrintln("blue");
-  neopixelWrite(RGB_BUILTIN, 0, 0, 255);
+  rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
   delay(1000);
 }

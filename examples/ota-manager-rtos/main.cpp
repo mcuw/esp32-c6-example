@@ -27,7 +27,7 @@ OTA ota;
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
   // init RGB-LED
-  neopixelWrite(PIN_NEOPIXEL, redValue, greenValue, blueValue);
+  rgbLedWrite(PIN_RGB_LED, redValue, greenValue, blueValue);
 
   // you can initialize the dev board here ...
 }
@@ -191,14 +191,14 @@ void sleepTask(void *parameters)
     // telnet.println(err);
 
     // esp_now_deinit();x
-    neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
+    rgbLedWrite(PIN_RGB_LED, 0, 0, 0);
     telnet.println("sleep ...");
     telnet.flush();
     serialFlush();
     err = esp_light_sleep_start(); // ESP_OK or ESP_ERR_INVALID_STATE
     if (err == ESP_OK)
     {
-      neopixelWrite(PIN_NEOPIXEL, 0, 255, 0);
+      rgbLedWrite(PIN_RGB_LED, 0, 255, 0);
 
       // wake up or failed
       // err = esp_now_init();
@@ -207,7 +207,7 @@ void sleepTask(void *parameters)
     }
     else
     {
-      neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
+      rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
       telnet.println(err);
     }
 

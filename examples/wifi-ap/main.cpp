@@ -14,8 +14,8 @@ void setup()
 
 void loop()
 {
-  neopixelWrite(PIN_NEOPIXEL, 255, 0, 0);
+  rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
   delay(200);
-  neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+  rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
   delay(200);
 }

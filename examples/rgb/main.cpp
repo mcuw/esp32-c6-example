@@ -13,14 +13,14 @@ void setup()
 void loop()
 {
   serialPrintln("red");
-  neopixelWrite(PIN_RGB_LED, 255, 0, 0);
+  rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
   delay(1000);
 
   serialPrintln("green");
-  neopixelWrite(PIN_RGB_LED, 0, 255, 0);
+  rgbLedWrite(PIN_RGB_LED, 0, 255, 0);
   delay(1000);
 
   serialPrintln("blue");
-  neopixelWrite(PIN_RGB_LED, 0, 0, 255);
+  rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
   delay(1000);
 }

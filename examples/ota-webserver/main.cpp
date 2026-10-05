@@ -14,7 +14,7 @@ WebServer server(80);
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
   // init RGB-LED
-  neopixelWrite(PIN_NEOPIXEL, redValue, greenValue, blueValue);
+  rgbLedWrite(PIN_RGB_LED, redValue, greenValue, blueValue);
 }
 
 void handleRoot()

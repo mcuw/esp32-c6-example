@@ -10,7 +10,7 @@ ESPTelnetStream telnet;
 void initDevBoard(uint8_t redValue = 0, uint8_t greenValue = 0, uint8_t blueValue = 0)
 {
   // reset RGB-LED
-  neopixelWrite(PIN_NEOPIXEL, redValue, greenValue, blueValue);
+  rgbLedWrite(PIN_RGB_LED, redValue, greenValue, blueValue);
 }
 
 void setup()
@@ -37,12 +37,12 @@ void loop()
     switch (message)
     {
     case 'a':
-      neopixelWrite(PIN_NEOPIXEL, 0, 0, 255);
+      rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
       telnet.println("light");
       break;
 
     case 'o':
-      neopixelWrite(PIN_NEOPIXEL, 0, 0, 0);
+      rgbLedWrite(PIN_RGB_LED, 0, 0, 0);
       telnet.println("dark");
       break;
     }

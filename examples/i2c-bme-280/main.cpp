@@ -30,7 +30,7 @@ BME280 mySensor;
 void setup()
 {
   Serial.begin(115200);
-  neopixelWrite(PIN_RGB_LED, 0, 0, 0);
+  rgbLedWrite(PIN_RGB_LED, 0, 0, 0);
 
   Wire.begin(SDA1, SCL1);
   Wire.setClock(400000); //Increase to fast I2C speed!
@@ -38,13 +38,13 @@ void setup()
 
   if (mySensor.beginI2C()) {
     Serial.println("Sensor connected");
-    neopixelWrite(PIN_RGB_LED, 0, 0, 255);
+    rgbLedWrite(PIN_RGB_LED, 0, 0, 255);
 
     // Adjust the sea level pressure used for altitude calculations
     mySensor.setReferencePressure(SEALEVELPRESSURE_PA);
   } else {
     Serial.println("Sensor connect failed. Reconfigure address default 0x76 or check correct PIN connection.");
-    neopixelWrite(PIN_RGB_LED, 255, 0, 0);
+    rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
 
     delay(5000); // Wait 5 seconds to restart
     ESP.restart();

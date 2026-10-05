@@ -13,7 +13,7 @@ void setup()
 {
   Serial.begin(115200);
   Wire.begin(SDA1, SCL1);
-  neopixelWrite(PIN_RGB_LED, 0, 0, 0);
+  rgbLedWrite(PIN_RGB_LED, 0, 0, 0);
 }
 
 void loop()
@@ -42,10 +42,10 @@ void loop()
   
   if (nDevices == 0) {
     Serial.println("No I2C devices found\n");
-    neopixelWrite(PIN_RGB_LED, 255, 0, 0);
+    rgbLedWrite(PIN_RGB_LED, 255, 0, 0);
   } else {
     Serial.println("done\n");
-    neopixelWrite(PIN_RGB_LED, 0, 255, 0);
+    rgbLedWrite(PIN_RGB_LED, 0, 255, 0);
   }
   
   delay(5000); // Wait 5 seconds for next scan
